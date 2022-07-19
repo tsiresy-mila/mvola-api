@@ -1,25 +1,34 @@
-export type HashedMap = {
-    key: string;
-    value: string;
-}
+export type AuthResult = {
+  access_token: string;
+  scope: string;
+  token_type: string;
+  expires_in: number;
+};
 
-export type Options = {
+// config for transaction
+export type Config = {
     version: string;
-    correlationId: string;
+    xCorrelationID: string;
     userLanguage?: string;
     userAccountIdentifier: string;
     partnerName?: string;
-    callbackUrl?: string;
+    xCallbackURL?: string;
+};
+
+
+export type HashedMap = {
+  key: string;
+  value: string;
+}
+
+export type MvolaTransactionState = {
+  status: string;
+  serverCorrelationId: string;
+  notificationMethod: string;
+  objectReference: string;
 };
   
-  export type AuthResponse = {
-    access_token: string;
-    scope: string;
-    token_type: string;
-    expires_in: number;
-  };
-  
-  export type TransactionRequest = {
+export type MvolaTransactionData = {
     amount: number;
     currency: string;
     descriptionText: string;
@@ -31,13 +40,13 @@ export type Options = {
     originalTransactionReference: string;
   };
   
-  export type TransactionResponse = {
+export type MvolaTransactionResult = {
     status: string;
     serverCorrelationId: string;
     notificationMethod: string;
   };
   
-  export type TransactionDetails = {
+export type MvolaTransactionDetails = {
     amount: number;
     currency: string;
     transactionReference: string;
@@ -51,9 +60,4 @@ export type Options = {
     };
   };
   
-  export type TransactionStatus = {
-    status: string;
-    serverCorrelationId: string;
-    notificationMethod: string;
-    objectReference: string;
-  };
+  

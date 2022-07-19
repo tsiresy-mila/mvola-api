@@ -1,7 +1,8 @@
-import { TransactionDetails, TransactionRequest, TransactionResponse, TransactionStatus } from "./Types";
-import { API } from "./API";
-export declare class Transaction extends API {
-    getDetails(transactionId: string): Promise<TransactionDetails>;
-    getStatus(serverCorrelationId: string): Promise<TransactionStatus>;
-    initiateTranscation(params: TransactionRequest): Promise<TransactionResponse>;
+import { MvolaTransactionDetails, MvolaTransactionData, MvolaTransactionResult, MvolaTransactionState, Config } from "./@types";
+import { ClientAPI } from "./ClientAPI";
+export declare class Transaction extends ClientAPI {
+    getDetails(transactionId: string): Promise<MvolaTransactionDetails>;
+    getStatus(serverCorrelationId: string): Promise<MvolaTransactionState>;
+    initiateTranscation(params: MvolaTransactionData): Promise<MvolaTransactionResult>;
+    initConfig(configs: Config): void;
 }

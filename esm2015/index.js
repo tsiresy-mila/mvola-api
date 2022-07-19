@@ -14,9 +14,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./Auth"), exports);
+__exportStar(require("./Authentication"), exports);
 __exportStar(require("./constants"), exports);
-__exportStar(require("./Client"), exports);
+__exportStar(require("./MVolaMarchantPayAPI"), exports);
 __exportStar(require("./Transaction"), exports);
-__exportStar(require("./Types"), exports);
+__exportStar(require("./@types"), exports);
 //# sourceMappingURL=index.js.map

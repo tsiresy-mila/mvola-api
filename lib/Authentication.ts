@@ -1,22 +1,22 @@
 import qs from "qs";
-import { AuthResponse } from "./Types";
+import { AuthResult} from "./@types";
 import { Buffer } from 'buffer';
-import { API } from "./API";
+import { ClientAPI } from "./ClientAPI";
 
-export class Auth extends API  {
+export class Authentication extends ClientAPI  {
 
-    async generateToken( consumerKey: string, consumerSecret: string ): Promise<AuthResponse> {
+    async getToken( consumerKey: string, consumerSecret: string ): Promise<AuthResult> {
         const params = qs.stringify({
           grant_type: "client_credentials",
           scope: "EXT_INT_MVOLA_SCOPE",
         });
-        const { data } = await this.api.post<AuthResponse>(`/token`, params, {
+        const response = await this.api.post<AuthResult>(`/token`, params, {
           headers: {
             Authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
             ContentType : 'application/x-www-form-urlencoded',
             CacheControl : 'no-cache'
           },
         });
-        return data;
+        return response.data;
       }
 }

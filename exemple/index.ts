@@ -1,28 +1,29 @@
-import { Client, SANDBOX_URL, TransactionRequest } from "../lib";
+import { MVolaMarchantPayAPI, SANDBOX_URL, MvolaTransactionData } from "../lib";
 import { v4 } from "uuid";
 require('dotenv').config()
 
-async function bootstrap() {
+async function app() {
+
     const consumerKey = process.env.CONSUMER_KEY || '';
     const consumerSecret = process.env.CONSUMER_SECRET || '';
-    const apiClient = new Client(SANDBOX_URL);
-    const data = await apiClient.generateToken(consumerKey, consumerSecret);
 
-    apiClient.setAccessToken(data.access_token);
+    const mvolaApi = new MVolaMarchantPayAPI(SANDBOX_URL);
 
-    apiClient.config({
+    // mvolaApi.setAccessToken(access_token);
+
+    await mvolaApi.revokeToken(consumerKey, consumerSecret, true);
+
+
+    mvolaApi.initConfig({
       version: "1.0",
-      correlationId: v4(),
+      xCorrelationID: v4(),
       userLanguage: "MG",
       userAccountIdentifier: "msisdn;034350003",
       partnerName: "Mvola API",
     });
-
   
-    const transactionRef = v4();
-  
-    const tx: TransactionRequest = {
-      amount: 1000,
+    const transaction: MvolaTransactionData = {
+      amount: 500,
       currency: "Ar",
       descriptionText: "Description",
       requestDate: new Date().toISOString(),
@@ -52,11 +53,12 @@ async function bootstrap() {
           value: "1",
         },
       ],
-      requestingOrganisationTransactionReference: transactionRef,
-      originalTransactionReference: transactionRef,
+      requestingOrganisationTransactionReference: v4(),
+      originalTransactionReference: v4(),
     };
-    const response = await apiClient.initiateTranscation(tx);
-    console.log(response)
+
+    const result = await mvolaApi.initiateTranscation(transaction);
+    return result
   }
   
-bootstrap();
+app().then(result => console.log(result));

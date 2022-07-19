@@ -1,7 +1,7 @@
-export * from './Auth'
+export * from './Authentication'
 export *  from './constants'
-export *  from './Client'
+export *  from './MVolaMarchantPayAPI'
 export *  from './Transaction';
-export * from './Types';
+export * from './@types';
 
 

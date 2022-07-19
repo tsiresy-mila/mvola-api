@@ -1,30 +1,28 @@
-require('dotenv').config()
-const { Client, SANDBOX_URL } = require("./../esm2015");
-const {v4} = require('uuid')
+require("dotenv").config();
+const { MVolaMarchatPayAPI } = require("./../esm2015");
+const { v4 } = require("uuid");
 
 const consumerKey = process.env.CONSUMER_KEY || "";
 const consumerSecret = process.env.CONSUMER_SECRET || "";
-const apiClient = new Client(SANDBOX_URL);
+const mvolaApi = new MVolaMarchatPayAPI();
 
-apiClient.generateToken(consumerKey, consumerSecret).then((data) => {
+// set token directly 
+// mvolaApi.setAccessToken(access_token);
 
-  //set access token for api request
-  apiClient.setAccessToken(data.access_token);
+// if you need to revoke token
+mvolaApi.revokeToken(consumerKey, consumerSecret, true).then(() => {
 
-  // config for transaction
-  apiClient.config({
+  // init transaction config 
+  mvolaApi.initConfig({
     version: "1.0",
-    correlationId: v4(),
+    xCorrelationID: v4(),
     userLanguage: "MG",
     userAccountIdentifier: "msisdn;034350003",
     partnerName: "Mvola API",
   });
 
-  // transcation reference
-  const transRef = v4();
-
   const trans = {
-    amount: 1000,
+    amount: 500,
     currency: "Ar",
     descriptionText: "Description",
     requestDate: new Date().toISOString(),
@@ -54,10 +52,12 @@ apiClient.generateToken(consumerKey, consumerSecret).then((data) => {
         value: "1",
       },
     ],
-    requestingOrganisationTransactionReference: transRef,
-    originalTransactionReference: transRef,
+    requestingOrganisationTransactionReference: v4(),
+    originalTransactionReference: v4(),
   };
-  apiClient.initiateTranscation(trans).then((response) => {
-    console.log(response);
+  mvolaApi.initiateTranscation(trans).then((result) => {
+    console.log(result);
   });
 });
+
+

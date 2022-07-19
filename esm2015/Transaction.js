@@ -64,7 +64,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Transaction = void 0;
 var _1 = require(".");
-var API_1 = require("./API");
+var ClientAPI_1 = require("./ClientAPI");
 var Transaction = /** @class */ (function (_super) {
     __extends(Transaction, _super);
     function Transaction() {
@@ -72,44 +72,59 @@ var Transaction = /** @class */ (function (_super) {
     }
     Transaction.prototype.getDetails = function (transactionId) {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
+            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.api.get("".concat(_1.MVOLA_MERCHANT_API_URL, "/").concat(transactionId))];
                     case 1:
-                        data = (_a.sent()).data;
-                        return [2 /*return*/, data];
+                        result = _a.sent();
+                        return [2 /*return*/, result.data];
                 }
             });
         });
     };
     Transaction.prototype.getStatus = function (serverCorrelationId) {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
+            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.api.get("".concat(_1.MVOLA_MERCHANT_API_URL, "/status/").concat(serverCorrelationId))];
                     case 1:
-                        data = (_a.sent()).data;
-                        return [2 /*return*/, data];
+                        result = _a.sent();
+                        return [2 /*return*/, result.data];
                 }
             });
         });
     };
     Transaction.prototype.initiateTranscation = function (params) {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
+            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.api.post("".concat(_1.MVOLA_MERCHANT_API_URL, "/"), __assign(__assign({}, params), { amount: params.amount.toString() }))];
                     case 1:
-                        data = (_a.sent()).data;
-                        return [2 /*return*/, data];
+                        result = _a.sent();
+                        return [2 /*return*/, result.data];
                 }
             });
         });
     };
+    Transaction.prototype.initConfig = function (configs) {
+        this.api.defaults.headers.common["Version"] = configs.version;
+        this.api.defaults.headers.common["X-CorrelationID"] = configs.xCorrelationID;
+        this.api.defaults.headers.common["Cache-Control"] = "no-cache";
+        this.api.defaults.headers.common["UserAccountIdentifier"] = configs.userAccountIdentifier;
+        if (configs.partnerName) {
+            this.api.defaults.headers.common["PartnerName"] = configs.partnerName;
+        }
+        if (configs.xCallbackURL) {
+            this.api.defaults.headers.common["X-Callback-URL"] = configs.xCallbackURL;
+        }
+        if (configs.userLanguage) {
+            this.api.defaults.headers.common["UserLanguage"] = configs.userLanguage;
+        }
+    };
     return Transaction;
-}(API_1.API));
+}(ClientAPI_1.ClientAPI));
 exports.Transaction = Transaction;
 //# sourceMappingURL=Transaction.js.map

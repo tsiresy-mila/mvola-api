@@ -1,12 +1,12 @@
 
 import  axios  from 'axios';
 import { AxiosInstance } from 'axios';
-import { API } from '../lib/API';
+import { ClientAPI } from '../lib/ClientAPI';
 import { Transaction } from '../lib';
 
 
 
-class D  extends API {
+class D  extends ClientAPI {
     blue(){
         console.log('Blue')
     }
